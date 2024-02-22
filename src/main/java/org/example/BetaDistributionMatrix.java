@@ -2,6 +2,9 @@ package org.example;
 
 import org.apache.commons.math3.distribution.BetaDistribution;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
 
 public class BetaDistributionMatrix {
 
@@ -18,7 +21,39 @@ public class BetaDistributionMatrix {
         return data;
     }
 
+    // Fonction pour trier les données avec l'algorithme de tri par insertion
+    public static void insertionSort(double[] arr) {
+        // Vérifier si le tableau est vide ou contient un seul élément
+        if (arr == null || arr.length <= 1) {
+            return;
+        }
 
+        for (int i = 0; i < arr.length; ++i) {
+            int j;
+            for (j = i ; j > 0 ; j--) {
+                if(arr[j]<arr[j-1]) {
+
+                  double tmp=arr[j];
+                  arr[j]=arr[j-1];
+                  arr[j-1]=tmp;
+
+                }
+                else break;
+            }
+        }
+    }
+
+
+    // Fonction pour chauffer le JVM
+    public static void warmUpJVM() {
+        System.out.println("Chauffage du JVM en cours...");
+        // Exécuter quelques rounds de tri initiaux pour stabiliser les performances du JVM
+        for (int i = 0; i < 5; i++) {
+            double[] randomNumbers = betaDataGenerate(0.5, 0.1, 1000); // Générer 10 nombres aléatoires
+            insertionSort(randomNumbers); // Trier les nombres aléatoires avec le tri par insertion
+        }
+        System.out.println("Chauffage du JVM terminé.");
+    }
 
     // Fonction pour créer et remplir les matrices de distribution bêta
     public static double[][][] createBetaMatrices(double[] means, double[] variances, int initialDataSize) {
@@ -60,12 +95,12 @@ public class BetaDistributionMatrix {
         }
     }
 
-
-
+    // Fonction pour stocker les résultats dans un fichier
 
 
     public static void main(String[] args) {
         // Chauffer le JVM
+        warmUpJVM();
 
         // Définir les moyennes, les variances et les tailles de données initiales
         double[] means = {0.2, 0.5, 0.8};
@@ -77,7 +112,6 @@ public class BetaDistributionMatrix {
 
 
         printMatrix(betaMatrices, means, variances);
-
 
 
     }
